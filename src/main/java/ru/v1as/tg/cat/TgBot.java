@@ -9,7 +9,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.RequiredArgsConstructor;
+//import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +29,7 @@ import ru.v1as.tg.cat.tg.TgUpdateProcessor;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class TgBot extends TelegramLongPollingBot implements TgSender, ChatReadingDelay {
 
     private static final int MIN_READING_TIMEOUT_MS = 1500;
@@ -44,6 +44,12 @@ public class TgBot extends TelegramLongPollingBot implements TgSender, ChatReadi
 
     @Value("${tg.bot.token}")
     private String botToken;
+
+    public TgBot(TgUpdateProcessor updateProcessor, BotClock clock, TgBotProxyConfig proxyConfig) {
+        super(proxyConfig.getBotOptions());
+        this.updateProcessor = updateProcessor;
+        this.clock = clock;
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
